@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>.</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    flex-direction: column;
+    color: #FFF;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    transition: background 1s ease;
+  }
+
+  .warp-container {
+    display: inline-block;
+    cursor: pointer;
+    animation: float-image 2s infinite ease-in-out, jitter 0.2s infinite alternate;
+  }
+
+  img {
+    max-width: 80vw;
+    max-height: 80vh;
+    display: block;
+    opacity: 1;
+    transition: opacity 1s ease;
+  }
+
+  #hidden-text,
+  #final-text {
+    margin-top: 20px;
+    opacity: 0;
+    font-size: 1.2rem;
+    text-align: center;
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  #hidden-text.show {
+    opacity: 1;
+  }
+
+  #final-text.show {
+    opacity: 1;
+    transform: translateY(0);
+    animation: subtle-shake 0.5s infinite alternate;
+  }
+
+  .freak {
+    animation: freakout 0.05s infinite;
+  }
+
+  @keyframes float-image {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, -1px); }
+    100% { transform: translate(0px, 0px); }
+  }
+
+  @keyframes jitter {
+    0% { transform: translate(0px, 0px); }
+    50% { transform: translate(1px, -1px); }
+    100% { transform: translate(0px, 1px); }
+  }
+
+  @keyframes freakout {
+    0% { transform: translate(0px,0px); opacity:1; }
+    20% { transform: translate(-15px,10px); opacity:0.7; }
+    40% { transform: translate(15px,-15px); opacity:0.5; }
+    60% { transform: translate(-10px,15px); opacity:0.3; }
+    80% { transform: translate(10px,-10px); opacity:0.2; }
+    100% { transform: translate(0px,0px); opacity:0; }
+  }
+
+  @keyframes subtle-shake {
+    0% { transform: translateX(0px); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-1px); }
+    100% { transform: translateX(1px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="warp-container" id="image-container">
+  <img src="https://file.garden/Z9xGnXpf6B5_2o1b/costume1%20(61).png" alt="ARG Image">
+</div>
+
+<div id="hidden-text">
+  why me? just why me? why do i need to work at this place. - daed
+</div>
+
+<div id="final-text" style="transform: translateY(20px);">
+  poor guy, he was just trying to do his job.
+</div>
+
+<script>
+  const imageContainer = document.getElementById('image-container');
+  const hiddenText = document.getElementById('hidden-text');
+  const finalText = document.getElementById('final-text');
+  const body = document.body;
+
+  let clickCount = 0;
+
+  imageContainer.addEventListener('click', () => {
+    clickCount++;
+    if (clickCount === 1) {
+      hiddenText.classList.add('show');
+    } else if (clickCount === 2) {
+      hiddenText.classList.remove('show');
+      imageContainer.classList.add('freak');
+      hiddenText.classList.add('freak');
+
+      setTimeout(() => {
+        imageContainer.style.display = 'none';
+        hiddenText.style.display = 'none';
+
+        body.style.background = '#330000';
+
+        const newImg = document.createElement('img');
+        newImg.src = "https://file.garden/Z9xGnXpf6B5_2o1b/2%20(5).png";
+        newImg.style.maxWidth = "80vw";
+        newImg.style.maxHeight = "80vh";
+        newImg.style.opacity = 0;
+        newImg.style.cursor = 'pointer';
+
+        const newContainer = document.createElement('div');
+        newContainer.classList.add('warp-container'); 
+        newContainer.appendChild(newImg);
+        document.body.appendChild(newContainer);
+
+        setTimeout(() => {
+          newImg.style.opacity = 1;
+        }, 50);
+
+        newImg.addEventListener('click', () => {
+          finalText.classList.add('show');
+        });
+
+      }, 500);
+    }
+  });
+</script>
+
+</body>
+</html>
